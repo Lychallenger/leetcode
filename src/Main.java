@@ -5,22 +5,31 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
-//922. 按奇偶排序数组 II
+//328. 奇偶链表
 
 class Main {
 
-    public int[] sortArrayByParityII(int[] A) {
-        int i=0;
-        int j=1;
-        while(i<A.length&&j<A.length){
-            while(i<A.length&&A[i]%2==0)i=i+2;
-            while(j<A.length&&A[j]%2==1)j=j+2;
-            if(i<A.length&&j<A.length){
-                int tmp=A[i];
-                A[i]=A[j];
-                A[j]=tmp;
-            }
+    public ListNode oddEvenList(ListNode head) {
+        if(head==null||head.next==null){
+            return head;
         }
-        return A;
+        ListNode p1=head;
+        ListNode p2=head.next;
+        ListNode p=head.next.next;
+        int ct=1;
+        while(p!=null){
+            if(ct%2==1){
+                p1.next=p;
+                p1=p1.next;
+            }
+            else{
+                p2.next=p;
+                p2=p2.next;
+            }
+            p=p.next;
+            ct++;
+        }
+        p1.next=head.next;
+        return head;
     }
 }
