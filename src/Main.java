@@ -1,35 +1,42 @@
 
 import java.lang.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
-//328. 奇偶链表
+//1122.数组的相对排序
 
 class Main {
 
-    public ListNode oddEvenList(ListNode head) {
-        if(head==null||head.next==null){
-            return head;
+    public int[] relativeSortArray(int[] arr1, int[] arr2) {
+        Arrays.sort(arr1);
+        HashSet<Integer> hashSet=new HashSet<>();
+        for(int i=0;i<arr2.length;i++){
+            hashSet.add(arr2[i]);
         }
-        ListNode p1=head;
-        ListNode p2=head.next;
-        ListNode p=head.next.next;
-        int ct=1;
-        while(p!=null){
-            if(ct%2==1){
-                p1.next=p;
-                p1=p1.next;
+        int []result=new int[arr1.length];
+        HashMap<Integer,Integer>  hashMap=new HashMap<>();
+        int ct=0;
+        for(int i=0;i<arr1.length;i++){
+            if(hashSet.contains(arr1[i])){
+                hashMap.put(arr1[i],hashMap.getOrDefault(arr1[i],0)+1);
             }
             else{
-                p2.next=p;
-                p2=p2.next;
+                ct++;
             }
-            p=p.next;
-            ct++;
         }
-        p1.next=head.next;
-        return head;
+        int off=0;
+        for(int i=0;i<arr2.length;i++){
+            int value=hashMap.get(arr2[i]);
+            for(int j=off;j<off+value;j++){
+                result[j]=arr2[i];
+            }
+            off=off+value;
+        }
+        for(int i=0;i<arr1.length;i++){
+            if(!hashSet.contains(arr1[i])){
+                result[off]=arr1[i];
+                off++;
+            }
+        }
+        return result;
     }
 }
