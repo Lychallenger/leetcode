@@ -7,34 +7,25 @@ import java.util.*;
 class Main {
 
     public int[] relativeSortArray(int[] arr1, int[] arr2) {
-        Arrays.sort(arr1);
-        HashSet<Integer> hashSet=new HashSet<>();
-        for(int i=0;i<arr2.length;i++){
-            hashSet.add(arr2[i]);
-        }
+        int []bucket=new int[1001];
         int []result=new int[arr1.length];
-        HashMap<Integer,Integer>  hashMap=new HashMap<>();
-        int ct=0;
         for(int i=0;i<arr1.length;i++){
-            if(hashSet.contains(arr1[i])){
-                hashMap.put(arr1[i],hashMap.getOrDefault(arr1[i],0)+1);
-            }
-            else{
-                ct++;
-            }
+            bucket[arr1[i]]++;
         }
         int off=0;
         for(int i=0;i<arr2.length;i++){
-            int value=hashMap.get(arr2[i]);
-            for(int j=off;j<off+value;j++){
+            for(int j=off;j<off+bucket[arr2[i]];j++){
                 result[j]=arr2[i];
             }
-            off=off+value;
+            off=off+bucket[arr2[i]];
+            bucket[arr2[i]]=0;
         }
-        for(int i=0;i<arr1.length;i++){
-            if(!hashSet.contains(arr1[i])){
-                result[off]=arr1[i];
-                off++;
+        for(int i=0;i<bucket.length;i++){
+            if(bucket[i]!=0){
+                for(int j=off;j<off+bucket[i];j++){
+                    result[j]=i;
+                }
+                off=off+bucket[i];
             }
         }
         return result;
