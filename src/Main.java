@@ -27,24 +27,16 @@ class Main {
                 return o2.k-o1.k;
             }
         });
-        boolean []visit=new boolean[people.length];
-        for(int i=0;i<arrayList.size();i++){
-            int h=arrayList.get(i).h;
-            int k=arrayList.get(i).k;
-            int off=0;
-            for(int j=0;j<visit.length;j++){
-                if(visit[j]==false){
-                    if(off==k){
-                        people[j][0]=h;
-                        people[j][1]=k;
-                        visit[j]=true;
-                        break;
-                    }
-                    off++;
-                }
+       ArrayList<man> result=new ArrayList<>();
+        for(int i=arrayList.size()-1;i>=0;i--){
+            result.add(arrayList.get(i).k,arrayList.get(i));
+        }
 
-            }
-
+        for(int i=0;i<result.size();i++){
+            int h=result.get(i).h;
+            int k=result.get(i).k;
+            people[i][0]=h;
+            people[i][1]=k;
         }
         return people;
 
