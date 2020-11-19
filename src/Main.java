@@ -2,22 +2,23 @@
 import java.lang.*;
 import java.util.*;
 
-//134. 加油站
+//283. 移动零
 
 
 class Main {
 
-    public int canCompleteCircuit(int[] gas, int[] cost) {
-        int rest = 0, run = 0, start = 0;
-        for (int i = 0; i < gas.length; ++i){
-            run += (gas[i] - cost[i]);
-            rest += (gas[i] - cost[i]);
-            if (run < 0){
-                start = i + 1;
-                run = 0;
+    public void moveZeroes(int[] nums) {
+        int slow =0;
+        int fast=0;
+        while(fast<nums.length){
+            if(nums[fast]!=0){
+                int tmp=nums[fast];
+                nums[fast]=nums[slow];
+                nums[slow]=tmp;
+                slow++;
             }
+            fast++;
         }
-        return rest < 0 ? -1: start;
     }
 
 }
