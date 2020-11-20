@@ -2,26 +2,37 @@
 import java.lang.*;
 import java.util.*;
 
-//147. 对链表进行插入排序
+//907. 子数组的最小值之和
 
-
+class pair{
+    int num;
+    int count;
+    pair(int num,int count){
+        this.num=num;
+        this.count=count;
+    }
+}
 class Main {
 
-    public ListNode insertionSortList(ListNode head) {
-        if(head==null)return head;
-        ListNode ordered=new ListNode(-1);
-        while(head!=null){
-            ListNode tmp=ordered;
-            ListNode now=ordered.next;
-            while (now!=null&&head.val>now.val){
-                now=now.next;
-                tmp=tmp.next;
+    public int sumSubarrayMins(int[] arr) {
+        Stack<pair> st=new Stack<>();
+        int sum=0;
+        int res=0;
+        int tmp_sum=0;
+        for(int i=0;i<arr.length;i++){
+            int t=arr[i];
+            int ct=0;
+            while(!st.isEmpty()&&st.peek().num>t){
+                pair p=st.pop();
+                ct=ct+p.count;
+                tmp_sum=tmp_sum-p.num*p.count;
             }
-            tmp.next=head;
-            head=head.next;
-            tmp.next.next=now;
+            tmp_sum=tmp_sum+t*(ct+1);
+            res=res+tmp_sum;
+            res=res%1000000007;
+            st.push(new pair(t,ct+1));
         }
-        return ordered.next;
+        return res;
     }
 
 }
