@@ -4,42 +4,42 @@ import java.util.*;
 
 //452. 用最少数量的箭引爆气球
 
-class loc{
-    int begin;
-    int end;
-    loc(int begin,int end){
-        this.begin=begin;
-        this.end=end;
-    }
-}
+
 
 class Main {
 
     public int findMinArrowShots(int[][] points) {
-        List<loc> list=new ArrayList<>();
-        for(int i=0;i<points.length;i++){
-            list.add(new loc(points[i][0],points[i][1]));
-        }
-        list.sort((o1,o2)->{
-            if(o1.begin!=o2.begin)return o1.begin-o2.begin;
-            else return o1.end-o2.end;
-        });
-        List<loc> result=new ArrayList<>();
-        result.add(list.get(0));
-        for(int i=1;i<list.size();i++){
-            int begin=list.get(i).begin;
-            int end=list.get(i).end;
-            int r_begin=result.get(result.size()-1).begin;
-            int r_end=result.get(result.size()-1).end;
-            if(begin>=r_begin&&begin<=r_end){//merge
-                result.get(result.size()-1).begin=begin;
-                result.get(result.size()-1).end=Math.min(r_end,end);
-            }
-            else{
-                result.add(list.get(i));
-            }
-        }
-        return result.size();
+       if(points.length==0) return 0;
+       Arrays.sort(points, (o1, o2) -> {
+           if(o1[0]!=o2[0])return o1[0]<o2[0]?-1:1;
+           else {
+               if(o1[1]<o2[1]){
+                  return  -1;
+               }
+               else if(o1[1]>o2[1]){
+                   return 1;
+               }
+               else {
+                   return 0;
+               }
+           }
+       });
+       List<int []> list=new ArrayList<>();
+       list.add(points[0]);
+       for(int i=1;i<points.length;i++){
+           int begin=points[i][0];
+           int end=points[i][1];
+           int r_begin=list.get(list.size()-1)[0];
+           int r_end=list.get(list.size()-1)[1];
+           if(begin>=r_begin&&begin<=r_end){
+               list.get(list.size()-1)[0]=begin;
+               list.get(list.size()-1)[1]=Math.min(end,r_end);
+           }
+           else{
+               list.add(points[i]);
+           }
+       }
+       return list.size();
     }
 
 }
