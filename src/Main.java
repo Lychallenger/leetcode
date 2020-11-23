@@ -24,22 +24,17 @@ class Main {
                }
            }
        });
-       List<int []> list=new ArrayList<>();
-       list.add(points[0]);
+       int count=1;
+       int end=points[0][1];
        for(int i=1;i<points.length;i++){
-           int begin=points[i][0];
-           int end=points[i][1];
-           int r_begin=list.get(list.size()-1)[0];
-           int r_end=list.get(list.size()-1)[1];
-           if(begin>=r_begin&&begin<=r_end){
-               list.get(list.size()-1)[0]=begin;
-               list.get(list.size()-1)[1]=Math.min(end,r_end);
+           if(points[i][0]<=end){
+                end=Math.min(end,points[i][1]);
            }
            else{
-               list.add(points[i]);
+               count++;
            }
        }
-       return list.size();
+       return count;
     }
 
 }
