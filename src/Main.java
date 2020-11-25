@@ -2,51 +2,48 @@
 import java.lang.*;
 import java.util.*;
 
-//222. 完全二叉树的节点个数
+//1370. 上升下降字符串
 
 
 
 class Main {
 
-    public int countNodes(TreeNode root) {
-        if(root==null)return 0;
-        int max_level=0;
-        TreeNode tmp=root;
-        while(tmp!=null){
-            max_level++;
-            tmp=tmp.left;
+    public String sortString(String s) {
+        String table="abcdefghijklmnopqrstuvwxyz";
+        HashMap<Character,Integer> hashMap=new HashMap<>();
+        for(int i=0;i<table.length();i++){
+            hashMap.put(table.charAt(i),0);
         }
-        if(max_level==1)return 1;
-        else if(max_level==2) return root.right==null?2:3;
-        int left=0;
-        int right=(1<<(max_level-1))-1;
-        while(left<right){
-            int mid=left + (right - left + 1) / 2;
-            if(isExist(root,mid,max_level-1)){
-                left=mid;
-            }
-            else{
-                right=mid-1;
-            }
+        for(int i=0;i<s.length();i++){
+            hashMap.put(s.charAt(i),hashMap.getOrDefault(s.charAt(i),0)+1);
         }
-        int count=(1<<(max_level-1))+left;
-        return count;
-    }
-    public boolean isExist(TreeNode tmp,int mid,int level){
-        int tag=1<<(level-1);
-        while(level!=-1){
-            int t=mid&tag;
-            if(tmp==null)return false;
-            if(t!=0){
-                tmp=tmp.right;
+        int count=0;
+        int tag=-1;
+        StringBuffer result=new StringBuffer();
+        while(count<s.length()){
+            int ct=0;
+            if(tag==-1){//正向
+                for(int i=0;i<table.length();i++){
+                    if(hashMap.get(table.charAt(i))!=0){
+                        ct++;
+                        result.append(table.charAt(i));
+                        hashMap.put(table.charAt(i),hashMap.get(table.charAt(i))-1);
+                    }
+                }
             }
-            else{
-                tmp=tmp.left;
+            else{//反向
+                for(int i=table.length()-1;i>=0;i--){
+                    if(hashMap.get(table.charAt(i))!=0){
+                        ct++;
+                        result.append(table.charAt(i));
+                        hashMap.put(table.charAt(i),hashMap.get(table.charAt(i))-1);
+                    }
+                }
             }
-            mid=(mid<<1);
-            level--;
+            count=count+ct;
+            tag=tag*(-1);
         }
-        return true;
+        return  result.toString();
     }
 
 }
