@@ -5,41 +5,43 @@ import org.omg.PortableInterceptor.INACTIVE;
 import java.lang.*;
 import java.util.*;
 
-//nowcoder 最大和子矩阵
+//nowcoder 机器人走方格II
 
 
 
 
 class Main {
 
-    public  int getMax(int []tmp){
-        int max=tmp[0];
-        int res=tmp[0];
-        for(int i=1;i< tmp.length;i++){
-            max=Math.max(tmp[i]+max,tmp[i]);
-            res=Math.max(res,max);
-        }
-        return  res;
-    }
-    public int sumOfSubMatrix(int[][] mat, int n) {
+    public int countWays(int[][] map, int x, int y) {
         // write code here
-        int [][] prefix=new int[mat.length+1][mat[0].length];
-        for(int i=0;i<mat.length;i++){
-            for(int j=0;j<mat[0].length;j++){
-                prefix[i+1][j]=prefix[i][j]+mat[i][j];
+        int [][]dp=new int[map.length][map[0].length];
+        for(int j=0;j<y;j++){
+            if(map[0][j]==1){
+                dp[0][j]=1;
+            }
+            else{
+                break;
             }
         }
-        int max=Integer.MIN_VALUE;
-        for(int i=0;i<prefix.length;i++){
-            for(int j=i+1;j<prefix.length;j++){
-                int []tmp=new int[mat[0].length];
-                for(int k=0;k<mat[0].length;k++){
-                    tmp[k]=prefix[j][k]-prefix[i][k];
+        for(int i=0;i<x;i++){
+            if(map[i][0]==1){
+                dp[i][0]=1;
+            }
+            else{
+                break;
+            }
+        }
+        for(int i=1;i<x;i++){
+            for(int j=1;j<y;j++){
+                if(map[i][j]!=1){
+                    dp[i][j]=0;
                 }
-                max=Math.max(max,getMax(tmp));
+                else{
+                    dp[i][j]=(dp[i-1][j]+dp[i][j-1])%1000000007;
+                }
             }
         }
-        return max;
+        return dp[dp.length-1][dp[0].length-1];
     }
 
 }
