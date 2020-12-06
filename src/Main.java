@@ -2,68 +2,50 @@
 import com.sun.org.apache.regexp.internal.RE;
 import org.omg.PortableInterceptor.INACTIVE;
 
+import java.io.FileReader;
 import java.lang.*;
 import java.util.*;
 
-//34. 在排序数组中查找元素的第一个和最后一个位置
+//659. 分割数组为连续子序列
 
 
 
 
 class Main {
 
-    public int lower_bound(int []nums,int target){
-        int left=0;
-        int right=nums.length-1;
-        while(left<=right){
-            int mid=(left+right)/2;
-            if(nums[mid]<target){
-                left=mid+1;
-            }
-            else if(nums[mid]>target){
-                right=mid-1;
-            }
-            else{
-                right=mid-1;
-            }
+    public boolean isPossible(int[] nums) {
+        HashMap<Integer,Integer> hashMap=new HashMap<>();
+        HashMap<Integer,Integer> endHashMap=new HashMap<>();
+        for(int t:nums){
+            hashMap.put(t,hashMap.getOrDefault(t,0)+1);
         }
-        return  left;
-    }
-    public int upper_bound(int []nums,int target){
-        int left=0;
-        int right=nums.length-1;
-        while(left<=right){
-            int mid=left+(right-left+1)/2;
-            if(nums[mid]<target){
-                left=mid+1;
+        for(int t:nums){
+            int count=hashMap.getOrDefault(t,0);
+            if(count>0){
+                int pre=endHashMap.getOrDefault(t-1,0);
+                if(pre>0){
+                    hashMap.put(t,count-1);
+                    endHashMap.put(t-1,pre-1);
+                    endHashMap.put(t,endHashMap.getOrDefault(t,0)+1);
+                }
+                else{
+                    int c1=hashMap.getOrDefault(t+1,0);
+                    int c2=hashMap.getOrDefault(t+2,0);
+                    if(c1>0&&c2>0){
+                        hashMap.put(t,count-1);
+                        hashMap.put(t+1,c1-1);
+                        hashMap.put(t+2,c2-1);
+                        endHashMap.put(t+2,endHashMap.getOrDefault(t+2,0)+1);
+                    }
+                    else{
+                        return false;
+                    }
+                }
             }
-            else if(nums[mid]>target){
-                right=mid-1;
-            }
-            else{
-                left=mid+1;
-            }
-        }
-        return  right;
-    }
-    public int[] searchRange(int[] nums, int target) {
-        if(nums.length==0){
-            return new int[]{-1,-1};
-        }
-        else{
-            int x1=lower_bound(nums,target);
-            if(x1<0||x1>=nums.length)return new int[]{-1,-1};
-            if(nums[x1]!=target){
-                return new int[]{-1,-1};
-            }
-            else{
-                int x2=upper_bound(nums,target);
-                return new int[]{x1,x2};
-            }
-        }
-    }
 
-
+        }
+        return true;
+    }
 
 
 }
