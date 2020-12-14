@@ -2,25 +2,36 @@
 import com.sun.org.apache.regexp.internal.RE;
 import org.omg.PortableInterceptor.INACTIVE;
 
+import java.awt.event.KeyEvent;
 import java.io.FileReader;
 import java.lang.*;
 import java.util.*;
 
-//217. 存在重复元素
+//49. 字母异位词分组
 
 
 
 class Main {
-    public boolean containsDuplicate(int[] nums) {
-        HashSet<Integer> hashSet=new HashSet<>();
-        for(int t:nums){
-            if(hashSet.contains(t)){
-                return true;
+    public List<List<String>> groupAnagrams(String[] strs) {
+        HashMap<String,List<String>> hashtable=new HashMap<>();
+        for(int i=0;i<strs.length;i++){
+            String t=strs[i];
+            char ss[]=t.toCharArray();
+            Arrays.sort(ss);
+            String key=String.valueOf(ss);
+            if(hashtable.containsKey(key)){
+                hashtable.get(key).add(t);
             }
             else{
-                hashSet.add(t);
+                List<String> r=new ArrayList<>();
+                r.add(t);
+                hashtable.put(key,r);
             }
         }
-        return false;
+        List<List<String>> result=new ArrayList<>();
+        hashtable.forEach((k,v)->{
+            result.add(v);
+        });
+        return result;
     }
 }
