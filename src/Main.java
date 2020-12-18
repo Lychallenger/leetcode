@@ -1,21 +1,32 @@
 import java.lang.*;
 import java.util.*;
 
-//714. 买卖股票的最佳时机含手续费
+//389. 找不同
 
 
 
 class Main {
 
 
-    public int maxProfit(int[] prices, int fee) {
-        int [][]dp=new int[prices.length][2];
-        dp[0][0]=0;
-        dp[0][1]=-prices[0];
-        for(int i=1;i<prices.length;i++){
-            dp[i][0]=Math.max(dp[i-1][0],dp[i-1][1]+ prices[i]-fee);
-            dp[i][1]=Math.max(dp[i-1][1],dp[i-1][0]-prices[i]);
+    public char findTheDifference(String s, String t) {
+        HashMap<Character,Integer> hashMap=new HashMap<>();
+        for(int i=0;i<s.length();i++){
+            hashMap.put(s.charAt(i),hashMap.getOrDefault(s.charAt(i),0)+1);
         }
-        return dp[prices.length-1][0];
+        for(int i=0;i<t.length();i++){
+            if(hashMap.containsKey(t.charAt(i))){
+                int count=hashMap.get(t.charAt(i));
+                if(count==0){
+                    return t.charAt(i);
+                }
+                else{
+                    hashMap.put(t.charAt(i),count-1);
+                }
+            }
+            else{
+                return t.charAt(i);
+            }
+        }
+        return 'a';
     }
 }
