@@ -1,32 +1,27 @@
 import java.lang.*;
 import java.util.*;
 
-//389. 找不同
+//48. 旋转图像
 
 
 
 class Main {
 
 
-    public char findTheDifference(String s, String t) {
-        HashMap<Character,Integer> hashMap=new HashMap<>();
-        for(int i=0;i<s.length();i++){
-            hashMap.put(s.charAt(i),hashMap.getOrDefault(s.charAt(i),0)+1);
-        }
-        for(int i=0;i<t.length();i++){
-            if(hashMap.containsKey(t.charAt(i))){
-                int count=hashMap.get(t.charAt(i));
-                if(count==0){
-                    return t.charAt(i);
-                }
-                else{
-                    hashMap.put(t.charAt(i),count-1);
-                }
-            }
-            else{
-                return t.charAt(i);
+    public void rotate(int[][] matrix) {
+        for(int i=0;i<matrix.length;i++){
+            for(int j=0;j<=i;j++){
+                int t=matrix[i][j];
+                matrix[i][j]=matrix[j][i];
+                matrix[j][i]=t;
             }
         }
-        return 'a';
+        for(int i=0;i<matrix.length;i++){
+            for(int j=0;j<matrix.length/2;j++){
+                int t=matrix[i][j];
+                matrix[i][j]=matrix[i][matrix.length-j-1];
+                matrix[i][matrix.length-j-1]=t;
+            }
+        }
     }
 }
