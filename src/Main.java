@@ -1,27 +1,24 @@
 import java.lang.*;
 import java.util.*;
 
-//48. 旋转图像
+//746. 使用最小花费爬楼梯
 
 
 
 class Main {
 
 
-    public void rotate(int[][] matrix) {
-        for(int i=0;i<matrix.length;i++){
-            for(int j=0;j<=i;j++){
-                int t=matrix[i][j];
-                matrix[i][j]=matrix[j][i];
-                matrix[j][i]=t;
-            }
+    public int minCostClimbingStairs(int[] cost) {
+        int []dp=new int[cost.length+1];
+        dp[0]=cost[0];
+        dp[1]=Math.min(cost[0],cost[1]);
+        for(int i=2;i<dp.length;i++){
+            if(i!=cost.length)
+                dp[i]=cost[i]+Math.min(dp[i-1],dp[i-2]);
+            else
+                dp[i]=Math.min(dp[i-1],dp[i-2]);
         }
-        for(int i=0;i<matrix.length;i++){
-            for(int j=0;j<matrix.length/2;j++){
-                int t=matrix[i][j];
-                matrix[i][j]=matrix[i][matrix.length-j-1];
-                matrix[i][matrix.length-j-1]=t;
-            }
-        }
+        return dp[dp.length-1];
+
     }
 }
