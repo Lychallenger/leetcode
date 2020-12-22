@@ -1,24 +1,44 @@
 import java.lang.*;
 import java.util.*;
 
-//746. 使用最小花费爬楼梯
+//103. 二叉树的锯齿形层序遍历
 
 
 
 class Main {
 
 
-    public int minCostClimbingStairs(int[] cost) {
-        int []dp=new int[cost.length+1];
-        dp[0]=cost[0];
-        dp[1]=Math.min(cost[0],cost[1]);
-        for(int i=2;i<dp.length;i++){
-            if(i!=cost.length)
-                dp[i]=cost[i]+Math.min(dp[i-1],dp[i-2]);
-            else
-                dp[i]=Math.min(dp[i-1],dp[i-2]);
+    public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
+        Queue<TreeNode> queue=new ArrayDeque<>();
+        List<List<Integer>> result=new ArrayList<>();
+        if(root==null){
+            return result;
         }
-        return dp[dp.length-1];
-
+        queue.add(root);
+        List<Integer> level0=new ArrayList<>();
+        level0.add(root.val);
+        int readFlag=-1;
+        while(!queue.isEmpty()){
+            int size=queue.size();
+            List<Integer> tmp=new ArrayList<>();
+            for(int i=0;i<size;i++){
+                TreeNode tmpNode=queue.poll();
+                if(readFlag==-1){
+                    tmp.add(tmpNode.val);
+                }
+                else{
+                    tmp.add(0,tmpNode.val);
+                }
+                if(tmpNode.left!=null){
+                    queue.add(tmpNode.left);
+                }
+                if(tmpNode.right!=null){
+                    queue.add(tmpNode.right);
+                }
+            }
+            readFlag=readFlag*(-1);
+            result.add(tmp);
+        }
+        return result;
     }
 }
