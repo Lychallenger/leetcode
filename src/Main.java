@@ -1,44 +1,24 @@
 import java.lang.*;
 import java.util.*;
 
-//103. 二叉树的锯齿形层序遍历
+//387. 字符串中的第一个唯一字符
 
 
 
 class Main {
 
 
-    public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
-        Queue<TreeNode> queue=new ArrayDeque<>();
-        List<List<Integer>> result=new ArrayList<>();
-        if(root==null){
-            return result;
+    public int firstUniqChar(String s) {
+        char []ch=s.toCharArray();
+        HashMap<Character,Integer> hashMap=new HashMap<>();
+        for(int i=0;i<ch.length;i++){
+            hashMap.put(ch[i],hashMap.getOrDefault(ch[i],0)+1);
         }
-        queue.add(root);
-        List<Integer> level0=new ArrayList<>();
-        level0.add(root.val);
-        int readFlag=-1;
-        while(!queue.isEmpty()){
-            int size=queue.size();
-            List<Integer> tmp=new ArrayList<>();
-            for(int i=0;i<size;i++){
-                TreeNode tmpNode=queue.poll();
-                if(readFlag==-1){
-                    tmp.add(tmpNode.val);
-                }
-                else{
-                    tmp.add(0,tmpNode.val);
-                }
-                if(tmpNode.left!=null){
-                    queue.add(tmpNode.left);
-                }
-                if(tmpNode.right!=null){
-                    queue.add(tmpNode.right);
-                }
+        for(int i=0;i<ch.length;i++){
+            if(hashMap.get(ch[i])==1){
+                return i;
             }
-            readFlag=readFlag*(-1);
-            result.add(tmp);
         }
-        return result;
+        return -1;
     }
 }
