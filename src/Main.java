@@ -1,24 +1,32 @@
 import java.lang.*;
 import java.util.*;
 
-//387. 字符串中的第一个唯一字符
+//135. 分发糖果
 
 
 
 class Main {
 
 
-    public int firstUniqChar(String s) {
-        char []ch=s.toCharArray();
-        HashMap<Character,Integer> hashMap=new HashMap<>();
-        for(int i=0;i<ch.length;i++){
-            hashMap.put(ch[i],hashMap.getOrDefault(ch[i],0)+1);
-        }
-        for(int i=0;i<ch.length;i++){
-            if(hashMap.get(ch[i])==1){
-                return i;
+    public int candy(int[] ratings) {
+        int []dp=new int[ratings.length];
+        dp[0]=1;
+        for(int i=0;i<ratings.length-1;i++){
+            if(ratings[i]<ratings[i+1]){
+                dp[i+1]=dp[i]+1;
+            }
+            else{
+                dp[i+1]=1;
             }
         }
-        return -1;
+        int sum=0;
+        for(int i=ratings.length-1;i>0;i--){
+            if(ratings[i-1]>ratings[i]){
+                dp[i-1]=Math.max(dp[i-1],dp[i]+1);
+            }
+            sum=sum+dp[i-1];
+        }
+        sum=sum+dp[dp.length-1];
+        return sum;
     }
 }
