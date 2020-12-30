@@ -1,25 +1,36 @@
+import sun.nio.cs.ext.MacHebrew;
+
 import java.lang.*;
 import java.util.*;
 
-//330. 按要求补齐数组
+//1046. 最后一块石头的重量
 
 
 
 class Main {
 
-    public int minPatches(int[] nums, int n) {
-        int patches = 0;
-        long x = 1;
-        int length = nums.length, index = 0;
-        while (x <= n) {
-            if (index < length && nums[index] <= x) {
-                x += nums[index];
-                index++;
-            } else {
-                x *= 2;
-                patches++;
+    public int lastStoneWeight(int[] stones) {
+        PriorityQueue<Integer> priorityQueue=new PriorityQueue<>(((o1, o2) -> {
+            return o2-o1;
+        }));
+        for(int i=0;i<stones.length;i++){
+            priorityQueue.add(stones[i]);
+        }
+        while (priorityQueue.size()>1){
+            int first=priorityQueue.poll();
+            int second=priorityQueue.poll();
+            if(first==second){
+                continue;
+            }
+            else{
+                priorityQueue.add(Math.abs(first-second));
             }
         }
-        return patches;
+        if(priorityQueue.size()==0){
+            return 0;
+        }
+        else{
+            return priorityQueue.poll();
+        }
     }
 }
