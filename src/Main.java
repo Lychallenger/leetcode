@@ -3,18 +3,29 @@ import sun.nio.cs.ext.MacHebrew;
 import java.lang.*;
 import java.util.*;
 
-//509. 斐波那契数
+//547. 省份数量
 
 
 
 class Main {
 
-    public int fib(int n) {
-        if(n<=1){
-            return n;
+    public  void dfs(int i,int [][]isConnected,boolean[]visit){
+        visit[i]=true;
+        for(int j=0;j<visit.length;j++){
+            if(isConnected[i][j]==1&&visit[j]==false){
+                dfs(j,isConnected,visit);
+            }
         }
-        else{
-            return fib(n-1)+fib(n-2);
+    }
+    public int findCircleNum(int[][] isConnected) {
+        boolean [] visit=new boolean[isConnected.length];
+        int count=0;
+        for(int i=0;i<visit.length;i++){
+            if(visit[i]==false){
+                count++;
+                dfs(i,isConnected,visit);
+            }
         }
+        return count;
     }
 }
