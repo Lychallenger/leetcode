@@ -3,45 +3,27 @@ import sun.nio.cs.ext.MacHebrew;
 import java.lang.*;
 import java.util.*;
 
-//228. 汇总区间
+//674. 最长连续递增序列
 
 
 
 class Main {
 
-    public List<String> summaryRanges(int[] nums) {
-
-        List<String> result=new ArrayList<>();
+    public int findLengthOfLCIS(int[] nums) {
         if(nums.length==0){
-            return result;
+            return 0;
         }
-        int i=1;
-        int begin=0;
-        int end=0;
-        while(i<nums.length){
-            if(nums[i]-nums[end]==1){
-                end=i;
+        int max=1;
+        int tmp=1;
+        for(int i=0;i<nums.length-1;i++){
+            if(nums[i+1]>nums[i]){
+                tmp++;
             }
             else{
-                //write result
-                if(begin==end){
-                    result.add(String.valueOf(nums[begin]));
-                }
-                else{
-                    result.add(String.valueOf(nums[begin])+"->"+String.valueOf(nums[end]));
-
-                }
-                begin=i;
-                end=i;
+                tmp=1;
             }
-            i++;
+            max=Math.max(tmp,max);
         }
-        if(begin==end){
-            result.add(String.valueOf(nums[begin]));
-        }
-        else{
-            result.add(String.valueOf(nums[begin])+"->"+String.valueOf(nums[end]));
-        }
-        return result;
+        return max;
     }
 }
