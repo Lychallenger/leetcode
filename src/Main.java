@@ -3,25 +3,26 @@ import sun.nio.cs.ext.MacHebrew;
 import java.lang.*;
 import java.util.*;
 
-//724. 寻找数组的中心索引
+//424. 替换后的最长重复字符
+
 
 
 class Main {
 
-    public int pivotIndex(int[] nums) {
-        int [] left=new int[nums.length];
-        for(int i=1;i<nums.length;i++){
-            left[i]=left[i-1]+nums[i-1];
-        }
-        int [] right=new int[nums.length];
-        for(int i=nums.length-2;i>=0;i--){
-            right[i]=right[i+1]+nums[i+1];
-        }
-        for(int i=0;i<nums.length;i++){
-            if(left[i]==right[i]){
-                return i;
+    public int characterReplacement(String s, int k) {
+        int [] table=new int[26];
+        int left=0;
+        int right=0;
+        int result=0;
+        while(right<s.length()){
+            table[s.charAt(right)-'A']++;
+            result=Math.max(result,table[s.charAt(right)-'A']);
+            if(right-left+1-result>k){
+                table[s.charAt(left)-'A']--;
+                left++;
             }
+            right++;
         }
-        return  -1;
+        return right-left;
     }
 }
