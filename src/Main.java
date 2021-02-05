@@ -3,26 +3,32 @@ import sun.nio.cs.ext.MacHebrew;
 import java.lang.*;
 import java.util.*;
 
-//643. 子数组最大平均数 I
+//1208. 尽可能使字符串相等
 
 
 
 class Main {
 
-    public double findMaxAverage(int[] nums, int k) {
-        int sum=0;
-        for(int i=0;i<k;i++){
-            sum=sum+nums[i];
+    public int equalSubstring(String s, String t, int maxCost) {
+        int left=0;
+        int right=0;
+        int costSum=0;
+        int max_len=0;
+        while(right<s.length()){
+            if(costSum<=maxCost){
+                max_len=Math.max(max_len,right-left);
+                costSum=costSum+Math.abs(s.charAt(right)-t.charAt(right));
+                right++;
+            }
+            else{
+                max_len=Math.max(max_len,right-left-1);
+                costSum=costSum-Math.abs(s.charAt(left)-t.charAt(left));
+                left++;
+            }
         }
-        int max_sum=Integer.MIN_VALUE;
-        for(int i=k;i<nums.length;i++){
-            max_sum=Math.max(max_sum,sum);
-            //step 1 remove left;
-            sum=sum-nums[i-k];
-            //step 2 add right;
-            sum=sum+nums[i];
+        if(costSum<=maxCost){
+            max_len=Math.max(max_len,right-left);
         }
-        max_sum=Math.max(max_sum,sum);
-        return (double)max_sum/k;
+        return max_len;
     }
 }
