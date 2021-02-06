@@ -3,32 +3,31 @@ import sun.nio.cs.ext.MacHebrew;
 import java.lang.*;
 import java.util.*;
 
-//1423. 可获得的最大点数
+//888. 公平的糖果棒交换
 
 
 
 class Main {
 
-    public int maxScore(int[] cardPoints, int k) {
-        int tmp_sum=0;
-        int total=0;
-        int min_sum;
-        int window_size=cardPoints.length-k;
-        for(int i=0;i<window_size;i++){
-            tmp_sum=tmp_sum+cardPoints[i];
-            total=total+cardPoints[i];
+    public int[] fairCandySwap(int[] A, int[] B) {
+        int sum1=0;
+        int sum2=0;
+        //set
+        Set<Integer> set=new LinkedHashSet<>();
+        for(int i=0;i<B.length;i++){
+            sum2=sum2+B[i];
+            set.add(B[i]);
         }
-        min_sum=tmp_sum;
-        //slide window
-        for(int i=window_size;i<cardPoints.length;i++){
-            //remove left;
-            tmp_sum=tmp_sum-cardPoints[i-window_size];
-            //add right;
-            tmp_sum=tmp_sum+cardPoints[i];
-            min_sum=Math.min(min_sum,tmp_sum);
-            total=total+cardPoints[i];
+        for(int i=0;i<A.length;i++){
+            sum1=sum1+A[i];
         }
-        return total-min_sum;
-
+        int mean=(sum1+sum2)/2;
+        int expectValue=sum1-mean;
+        for(int i=0;i<A.length;i++){
+            if(set.contains(A[i]-expectValue)){
+                return new int[]{A[i],A[i]-expectValue};
+            }
+        }
+        return new int[]{};
     }
 }
