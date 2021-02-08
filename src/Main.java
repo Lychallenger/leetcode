@@ -3,28 +3,57 @@ import sun.nio.cs.ext.MacHebrew;
 import java.lang.*;
 import java.util.*;
 
-//665. 非递减数列
+//978. 最长湍流子数组
 
 
 
 class Main {
 
-    //4 2 1
-    // 4 2 3
-    public boolean checkPossibility(int[] nums) {
-        int n = nums.length, cnt = 0;
-        for (int i = 0; i < n - 1; ++i) {
-            int x = nums[i], y = nums[i + 1];
-            if (x > y) {
-                cnt++;
-                if (cnt > 1) {
-                    return false;
+    public int maxTurbulenceSize(int[] arr) {
+        if(arr.length<2){
+            return arr.length;
+        }
+        int max_len=1;
+        int tmp_len=1;
+        for(int i=0;i<arr.length-1;i++){
+            if(i%2==0){
+                if(arr[i]>arr[i+1]){
+                    tmp_len++;
                 }
-                if (i > 0 && y < nums[i - 1]) {
-                    nums[i + 1] = x;
+                else{
+                    tmp_len=1;
                 }
             }
+            else{
+                if(arr[i]<arr[i+1]){
+                    tmp_len++;
+                }
+                else{
+                    tmp_len=1;
+                }
+            }
+            max_len=Math.max(max_len,tmp_len);
         }
-        return true;
+        int len_tmp=1;
+        for(int i=0;i<arr.length-1;i++){
+            if(i%2==1){
+                if(arr[i]>arr[i+1]){
+                    len_tmp++;
+                }
+                else{
+                    len_tmp=1;
+                }
+            }
+            else{
+                if(arr[i]<arr[i+1]){
+                    len_tmp++;
+                }
+                else{
+                    len_tmp=1;
+                }
+            }
+            max_len=Math.max(max_len,len_tmp);
+        }
+        return max_len;
     }
 }
