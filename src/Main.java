@@ -3,37 +3,38 @@ import sun.nio.cs.ext.MacHebrew;
 import java.lang.*;
 import java.util.*;
 
-//567. 字符串的排列
+//703. 数据流中的第 K 大元素
 
 
 
 class Main {
-
-    public boolean checkInclusion(String s1, String s2) {
-        int[] hashmap=new int[26];
-        for(int i=0;i<s1.length();i++){
-            hashmap[s1.charAt(i)-'a']++;
+    int k;
+    PriorityQueue<Integer> priorityQueue;
+    public Main(int k, int[] nums) {
+        this.k=k;
+        this.priorityQueue=new PriorityQueue<>();
+        //init data
+        for(int i=0;i<(k>nums.length?nums.length:k);i++){
+            priorityQueue.add(nums[i]);
         }
-        int left=0;
-        int right=0;
-        hashmap[s2.charAt(right)-'a']--;
-        while(right<s2.length()){
-            if(hashmap[s2.charAt(right)-'a']<0){
-                hashmap[s2.charAt(left)-'a']++;
-                left++;
+        for(int i=k;i<nums.length;i++){
+            if(nums[i]>priorityQueue.peek()){
+                priorityQueue.poll();
+                priorityQueue.add(nums[i]);
             }
-            else{
-                if(right-left+1==s1.length()){
-                    return true;
-                }
-                right++;
-                if(right>=s2.length()){
-                    break;
-                }
-                hashmap[s2.charAt(right)-'a']--;
-            }
-
         }
-        return false;
+    }
+
+    public int add(int val) {
+        if(priorityQueue.size()<k){
+            priorityQueue.add(val);
+        }
+        else{
+            if(val>priorityQueue.peek()){
+                priorityQueue.poll();
+                priorityQueue.add(val);
+            }
+        }
+        return priorityQueue.peek();
     }
 }
