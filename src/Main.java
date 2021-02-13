@@ -3,32 +3,26 @@ import sun.nio.cs.ext.MacHebrew;
 import java.lang.*;
 import java.util.*;
 
-//119. 杨辉三角 II
+//448. 找到所有数组中消失的数字
 
 
 
 class Main {
-    public List<Integer> getRow(int rowIndex) {
-        List<Integer> list=new LinkedList<>();
-        list.add(0,1);
-        if(rowIndex==0){
-            return list;
-        }
-        else if(rowIndex==1){
-            list.add(0,1);
-            return list;
-        }
-        else{
-            list.add(0,1);
-            for(int i=1;i<rowIndex;i++){
-                //loop add;
-                for(int j=0;j<list.size()-1;j++){
-                    list.set(j,list.get(j)+list.get(j+1));
-                }
-                //add 1
-                list.add(0,1);
+    public List<Integer> findDisappearedNumbers(int[] nums) {
+        for(int i=0;i<nums.length;i++){
+            int cur=nums[i]-1;
+            while(cur!=-1&&nums[cur]!=-1){
+                int tmp=nums[cur]-1;
+                nums[cur]=-1;
+                cur=tmp;
             }
-            return list;
         }
+        List<Integer> list=new ArrayList<>();
+        for(int i=0;i<nums.length;i++){
+            if(nums[i]!=-1){
+                list.add(i+1);
+            }
+        }
+        return list;
     }
 }
