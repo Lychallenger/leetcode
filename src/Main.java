@@ -3,26 +3,16 @@ import sun.nio.cs.ext.MacHebrew;
 import java.lang.*;
 import java.util.*;
 
-//448. 找到所有数组中消失的数字
-
+//765. 情侣牵手
 
 
 class Main {
-    public List<Integer> findDisappearedNumbers(int[] nums) {
-        for(int i=0;i<nums.length;i++){
-            int cur=nums[i]-1;
-            while(cur!=-1&&nums[cur]!=-1){
-                int tmp=nums[cur]-1;
-                nums[cur]=-1;
-                cur=tmp;
-            }
+    public int minSwapsCouples(int[] row) {
+        int count=row.length/2;
+        UnionFind unionFind=new UnionFind(count);
+        for(int i=0;i<row.length-1;i=i+2){
+            unionFind.merge(row[i]/2,row[i+1]/2);
         }
-        List<Integer> list=new ArrayList<>();
-        for(int i=0;i<nums.length;i++){
-            if(nums[i]!=-1){
-                list.add(i+1);
-            }
-        }
-        return list;
+        return count-unionFind.getCount();
     }
 }
