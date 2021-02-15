@@ -3,16 +3,23 @@ import sun.nio.cs.ext.MacHebrew;
 import java.lang.*;
 import java.util.*;
 
-//765. 情侣牵手
+//485. 最大连续1的个数
 
 
 class Main {
-    public int minSwapsCouples(int[] row) {
-        int count=row.length/2;
-        UnionFind unionFind=new UnionFind(count);
-        for(int i=0;i<row.length-1;i=i+2){
-            unionFind.merge(row[i]/2,row[i+1]/2);
+    public int findMaxConsecutiveOnes(int[] nums) {
+        int count=0;
+        int max_count=0;
+        for(int i=0;i<nums.length;i++){
+            if(nums[i]==1){
+                count++;
+            }
+            else{
+                max_count=Math.max(max_count,count);
+                count=0;
+            }
         }
-        return count-unionFind.getCount();
+        max_count=Math.max(max_count,count);
+        return max_count;
     }
 }
