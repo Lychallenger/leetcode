@@ -3,15 +3,20 @@ import sun.nio.cs.ext.MacHebrew;
 import java.lang.*;
 import java.util.*;
 
-//561. 数组拆分 I
+//566. 重塑矩阵
 
 
 class Main {
-    public int arrayPairSum(int[] nums) {
-        Arrays.sort(nums);
-        int ret=0;
-        for(int i=0;i<nums.length;i=i+2){
-            ret=ret+nums[i];
+    public int[][] matrixReshape(int[][] nums, int r, int c) {
+        if(r*c!=nums.length*nums[0].length){
+            return nums;
+        }
+        int [][] ret=new int[r][c];
+        for(int i=0;i<nums.length;i++){
+            for(int j=0;j<nums[0].length;j++){
+                int count=i*nums[0].length+j;
+                ret[count/c][count%c]=nums[i][j];
+            }
         }
         return ret;
     }
