@@ -3,21 +3,23 @@ import sun.nio.cs.ext.MacHebrew;
 import java.lang.*;
 import java.util.*;
 
-//566. 重塑矩阵
+//1004. 最大连续1的个数 III
 
 
 class Main {
-    public int[][] matrixReshape(int[][] nums, int r, int c) {
-        if(r*c!=nums.length*nums[0].length){
-            return nums;
-        }
-        int [][] ret=new int[r][c];
-        for(int i=0;i<nums.length;i++){
-            for(int j=0;j<nums[0].length;j++){
-                int count=i*nums[0].length+j;
-                ret[count/c][count%c]=nums[i][j];
+    public int longestOnes(int[] A, int K) {
+        int l = 0, r = 0, res = 0;
+        while (r < A.length) {
+            if (A[r] == 0) {
+                if (K == 0) {
+                    while (A[l] == 1) l++;
+                    l++;
+                } else {
+                    K--;
+                }
             }
+            res = Math.max(res, ++r - l);
         }
-        return ret;
+        return res;
     }
 }
