@@ -3,37 +3,30 @@ import sun.nio.cs.ext.MacHebrew;
 import java.lang.*;
 import java.util.*;
 
-//697. 数组的度
+//1438. 绝对差不超过限制的最长连续子数组
 
-class arr{
-    int left;
-    int right;
-    int count;
-    arr(int left){
-        this.left=left;
-        this.right=left;
-        this.count=1;
-    }
-}
 class Main {
-    public int findShortestSubArray(int[] nums) {
-        HashMap<Integer,arr> hashMap=new HashMap<>();
-        int max_count=0;
-        for(int i=0;i<nums.length;i++){
-            if(!hashMap.containsKey(nums[i])){
-                hashMap.put(nums[i],new arr(i));
+    public int longestSubarray(int[] nums, int limit) {
+        PriorityQueue<Integer> priorityQueueMax=new PriorityQueue<>();
+        PriorityQueue<Integer> priorityQueueMin=new PriorityQueue<>((o1, o2) -> o2-o1);
+        int left=0;
+        int right=0;
+        int max_len=1;
+        while (right<nums.length){
+            if(priorityQueueMax.isEmpty()||Math.abs(priorityQueueMax.peek()-priorityQueueMin.peek())<=limit){
+                max_len=Math.max(right-left,max_len);
+                priorityQueueMax.add(nums[right]);
+                priorityQueueMin.add(nums[right]);
+                right++;
             }
             else{
-                hashMap.get(nums[i]).right=i;
-                hashMap.get(nums[i]).count++;
+                priorityQueueMax.remove(nums[left]);
+                priorityQueueMin.remove(nums[left]);
+                left++;
             }
-            max_count=Math.max(hashMap.get(nums[i]).count,max_count);
         }
-        int max_len=Integer.MAX_VALUE;
-        for(Integer keys:hashMap.keySet()){
-            if(hashMap.get(keys).count==max_count){
-                max_len=Math.min(max_len,hashMap.get(keys).right-hashMap.get(keys).left+1);
-            }
+        if(Math.abs(priorityQueueMax.peek()-priorityQueueMin.peek())<=limit){
+            max_len=Math.max(right-left,max_len);
         }
         return max_len;
     }
