@@ -3,31 +3,34 @@ import sun.nio.cs.ext.MacHebrew;
 import java.lang.*;
 import java.util.*;
 
-//1438. 绝对差不超过限制的最长连续子数组
+//766. 托普利茨矩阵
 
 class Main {
-    public int longestSubarray(int[] nums, int limit) {
-        PriorityQueue<Integer> priorityQueueMax=new PriorityQueue<>();
-        PriorityQueue<Integer> priorityQueueMin=new PriorityQueue<>((o1, o2) -> o2-o1);
-        int left=0;
-        int right=0;
-        int max_len=1;
-        while (right<nums.length){
-            if(priorityQueueMax.isEmpty()||Math.abs(priorityQueueMax.peek()-priorityQueueMin.peek())<=limit){
-                max_len=Math.max(right-left,max_len);
-                priorityQueueMax.add(nums[right]);
-                priorityQueueMin.add(nums[right]);
-                right++;
+    public boolean isSame(int[][]matrix,int i,int j){
+        int begin_value=matrix[i][j];
+        while(i<matrix.length&&j<matrix[0].length){
+            if(matrix[i][j]==begin_value){
+                i=i+1;
+                j=j+1;
+                continue;
             }
             else{
-                priorityQueueMax.remove(nums[left]);
-                priorityQueueMin.remove(nums[left]);
-                left++;
+                return false;
             }
         }
-        if(Math.abs(priorityQueueMax.peek()-priorityQueueMin.peek())<=limit){
-            max_len=Math.max(right-left,max_len);
+        return true;
+    }
+    public boolean isToeplitzMatrix(int[][] matrix) {
+        for(int i=0;i<matrix.length-1;i++){
+            if(!isSame(matrix, i, 0)){
+                return false;
+            }
         }
-        return max_len;
+        for(int j=1;j<matrix[0].length-1;j++){
+            if(!isSame(matrix,0,j)){
+                return false;
+            }
+        }
+        return true;
     }
 }
