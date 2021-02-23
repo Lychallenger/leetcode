@@ -3,34 +3,39 @@ import sun.nio.cs.ext.MacHebrew;
 import java.lang.*;
 import java.util.*;
 
-//766. 托普利茨矩阵
+//1052. 爱生气的书店老板
 
 class Main {
-    public boolean isSame(int[][]matrix,int i,int j){
-        int begin_value=matrix[i][j];
-        while(i<matrix.length&&j<matrix[0].length){
-            if(matrix[i][j]==begin_value){
-                i=i+1;
-                j=j+1;
-                continue;
+    public int maxSatisfied(int[] customers, int[] grumpy, int X) {
+        int total_sum=0;
+        for(int i=0;i<Math.min(grumpy.length,customers.length);i++){
+            if(grumpy[i]==0){
+                total_sum=total_sum+customers[i];
+            }
+        }
+        int left=0;
+        int right=0;
+        int tmp_sum=0;
+        int max_sum=0;
+        while(right<customers.length){
+            if(right<X){
+                if(grumpy[right]==1){
+                    tmp_sum=tmp_sum+customers[right];
+                }
+                right++;
             }
             else{
-                return false;
+                if(grumpy[left]==1){
+                    tmp_sum=tmp_sum-customers[left];
+                }
+                left++;
+                if(grumpy[right]==1){
+                    tmp_sum=tmp_sum+customers[right];
+                }
+                right++;
             }
+            max_sum=Math.max(max_sum,tmp_sum+total_sum);
         }
-        return true;
-    }
-    public boolean isToeplitzMatrix(int[][] matrix) {
-        for(int i=0;i<matrix.length-1;i++){
-            if(!isSame(matrix, i, 0)){
-                return false;
-            }
-        }
-        for(int j=1;j<matrix[0].length-1;j++){
-            if(!isSame(matrix,0,j)){
-                return false;
-            }
-        }
-        return true;
+        return max_sum;
     }
 }
