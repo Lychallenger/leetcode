@@ -3,39 +3,31 @@ import sun.nio.cs.ext.MacHebrew;
 import java.lang.*;
 import java.util.*;
 
-//1052. 爱生气的书店老板
+//832. 翻转图像
 
 class Main {
-    public int maxSatisfied(int[] customers, int[] grumpy, int X) {
-        int total_sum=0;
-        for(int i=0;i<Math.min(grumpy.length,customers.length);i++){
-            if(grumpy[i]==0){
-                total_sum=total_sum+customers[i];
-            }
-        }
-        int left=0;
-        int right=0;
-        int tmp_sum=0;
-        int max_sum=0;
-        while(right<customers.length){
-            if(right<X){
-                if(grumpy[right]==1){
-                    tmp_sum=tmp_sum+customers[right];
-                }
-                right++;
-            }
-            else{
-                if(grumpy[left]==1){
-                    tmp_sum=tmp_sum-customers[left];
-                }
+    public int[][] flipAndInvertImage(int[][] A) {
+        for(int i=0;i<A.length;i++){
+            int left=0;
+            int right=A[0].length-1;
+            while(left<right){
+                int tmp=A[i][left];
+                A[i][left]=A[i][right];
+                A[i][right]=tmp;
                 left++;
-                if(grumpy[right]==1){
-                    tmp_sum=tmp_sum+customers[right];
-                }
-                right++;
+                right--;
             }
-            max_sum=Math.max(max_sum,tmp_sum+total_sum);
         }
-        return max_sum;
+        for(int i=0;i<A.length;i++){
+            for(int j=0;j<A[0].length;j++){
+                if(A[i][j]==1){
+                    A[i][j]=0;
+                }
+                else{
+                    A[i][j]=1;
+                }
+            }
+        }
+        return A;
     }
 }
