@@ -3,31 +3,17 @@ import sun.nio.cs.ext.MacHebrew;
 import java.lang.*;
 import java.util.*;
 
-//832. 翻转图像
+//867. 转置矩阵
 
 class Main {
-    public int[][] flipAndInvertImage(int[][] A) {
-        for(int i=0;i<A.length;i++){
-            int left=0;
-            int right=A[0].length-1;
-            while(left<right){
-                int tmp=A[i][left];
-                A[i][left]=A[i][right];
-                A[i][right]=tmp;
-                left++;
-                right--;
+    public int[][] transpose(int[][] matrix) {
+        int [][] ret=new int[matrix[0].length][matrix.length];
+        for(int i=0;i<matrix[0].length;i++){
+            for(int j=0;j<matrix.length;j++){
+                int tmp=matrix[j][i];
+                ret[i][j]=tmp;
             }
         }
-        for(int i=0;i<A.length;i++){
-            for(int j=0;j<A[0].length;j++){
-                if(A[i][j]==1){
-                    A[i][j]=0;
-                }
-                else{
-                    A[i][j]=1;
-                }
-            }
-        }
-        return A;
+        return ret;
     }
 }
