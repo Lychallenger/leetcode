@@ -3,17 +3,47 @@ import sun.nio.cs.ext.MacHebrew;
 import java.lang.*;
 import java.util.*;
 
-//867. 转置矩阵
+//896. 单调数列
 
 class Main {
-    public int[][] transpose(int[][] matrix) {
-        int [][] ret=new int[matrix[0].length][matrix.length];
-        for(int i=0;i<matrix[0].length;i++){
-            for(int j=0;j<matrix.length;j++){
-                int tmp=matrix[j][i];
-                ret[i][j]=tmp;
-            }
+    public boolean isMonotonic(int[] A) {
+        if(A.length<2){
+            return true;
         }
-        return ret;
+        else{
+            int tag=0;
+            int i;
+            for(i=0;i<A.length-1;i++){
+                if(A[i]<A[i+1]){
+                    tag=1;
+                    break;
+                }
+                else if(A[i]>A[i+1]){
+                    tag=2;
+                    break;
+                }
+            }
+            if(tag==0)return true;
+            for(;i<A.length-1;i++){
+                if(tag==1){
+                    if(A[i]<=A[i+1]){
+                        continue;
+                    }
+                    else{
+                        return false;
+                    }
+                }
+                else{
+                    if(A[i]>=A[i+1]){
+                        continue;
+                    }
+                    else{
+                        return false;
+                    }
+
+                }
+            }
+            return true;
+        }
     }
 }
