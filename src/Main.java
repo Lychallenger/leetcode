@@ -21,7 +21,7 @@ class Main {
                     re[i]=re[i/2];
                 }
                 else{
-                    re[i]=re[i-2]+1;
+                    re[i]=re[i-1]+1;
                 }
             }
         }
