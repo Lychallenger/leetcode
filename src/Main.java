@@ -3,47 +3,29 @@ import sun.nio.cs.ext.MacHebrew;
 import java.lang.*;
 import java.util.*;
 
-//896. 单调数列
+//338. 比特位计数
 
 class Main {
-    public boolean isMonotonic(int[] A) {
-        if(A.length<2){
-            return true;
+    public int[] countBits(int num) {
+        int [] re=new int[num+1];
+        re[0]=0;
+        if(num==0)return re;
+        else if(num==1){
+            re[1]=1;
+            return re;
         }
         else{
-            int tag=0;
-            int i;
-            for(i=0;i<A.length-1;i++){
-                if(A[i]<A[i+1]){
-                    tag=1;
-                    break;
-                }
-                else if(A[i]>A[i+1]){
-                    tag=2;
-                    break;
-                }
-            }
-            if(tag==0)return true;
-            for(;i<A.length-1;i++){
-                if(tag==1){
-                    if(A[i]<=A[i+1]){
-                        continue;
-                    }
-                    else{
-                        return false;
-                    }
+            re[1]=1;
+            for(int i=2;i<re.length;i++){
+                if(i%2==0){
+                    re[i]=re[i/2];
                 }
                 else{
-                    if(A[i]>=A[i+1]){
-                        continue;
-                    }
-                    else{
-                        return false;
-                    }
-
+                    re[i]=re[i-2]+1;
                 }
             }
-            return true;
         }
+        return re;
+
     }
 }
