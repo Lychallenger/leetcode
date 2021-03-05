@@ -3,35 +3,50 @@ import sun.nio.cs.ext.MacHebrew;
 import java.lang.*;
 import java.util.*;
 
-//354. 俄罗斯套娃信封问题
+//232. 用栈实现队列
 
 class Main {
-    public int maxEnvelopes(int[][] envelopes) {
-        if(envelopes.length==0){
-            return 0;
-        }
-        Arrays.sort(envelopes, new Comparator<int[]>() {
-            @Override
-            public int compare(int[] o1, int[] o2) {
-                if(o1[0]!=o2[0]){
-                    return o1[0]-o2[0];
-                }
-                else{
-                    return o2[1]-o1[1];
-                }
+    Stack<Integer> s1;
+    Stack<Integer> s2;
+    /** Initialize your data structure here. */
+    public Main() {
+        s1=new Stack<>();
+        s2=new Stack<>();
+    }
+
+    /** Push element x to the back of queue. */
+    public void push(int x) {
+        s2.push(x);
+    }
+
+    /** Removes the element from in front of queue and returns that element. */
+    public int pop() {
+        if(s1.isEmpty()){
+            while(!s2.isEmpty()){
+                s1.push(s2.pop());
             }
-        });
-        int max=1;
-        int []dp=new int[envelopes.length];
-        Arrays.fill(dp,1);
-        for(int i=1;i<envelopes.length;i++){
-            for(int j=0;j<i;j++){
-                if(envelopes[i][1]>envelopes[j][1]){
-                    dp[i]=Math.max(dp[i],dp[j]+1);
-                }
-            }
-            max=Math.max(max,dp[i]);
+            return s1.pop();
         }
-        return max;
+        else{
+            return s1.pop();
+        }
+    }
+
+    /** Get the front element. */
+    public int peek() {
+        if(s1.isEmpty()){
+            while(!s2.isEmpty()){
+                s1.push(s2.pop());
+            }
+            return s1.peek();
+        }
+        else{
+            return s1.peek();
+        }
+    }
+
+    /** Returns whether the queue is empty. */
+    public boolean empty() {
+        return s1.isEmpty()&&s2.isEmpty();
     }
 }
