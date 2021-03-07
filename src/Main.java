@@ -3,50 +3,51 @@ import sun.nio.cs.ext.MacHebrew;
 import java.lang.*;
 import java.util.*;
 
-//232. 用栈实现队列
+//131. 分割回文串
 
 class Main {
-    Stack<Integer> s1;
-    Stack<Integer> s2;
-    /** Initialize your data structure here. */
-    public Main() {
-        s1=new Stack<>();
-        s2=new Stack<>();
-    }
-
-    /** Push element x to the back of queue. */
-    public void push(int x) {
-        s2.push(x);
-    }
-
-    /** Removes the element from in front of queue and returns that element. */
-    public int pop() {
-        if(s1.isEmpty()){
-            while(!s2.isEmpty()){
-                s1.push(s2.pop());
+    public void dfs(String s,int off,boolean[][]dp,List<String> tmp,List<List<String>> re){
+        if(off==s.length()){
+            re.add(new ArrayList<>(tmp));
+            return;
+        }
+        for(int i=off;i<s.length();i++){
+            if(dp[off][i]){
+                tmp.add(s.substring(off,i+1));
+                dfs(s,i+1,dp,tmp,re);
+                tmp.remove(tmp.size()-1);
             }
-            return s1.pop();
-        }
-        else{
-            return s1.pop();
         }
     }
-
-    /** Get the front element. */
-    public int peek() {
-        if(s1.isEmpty()){
-            while(!s2.isEmpty()){
-                s1.push(s2.pop());
+    public List<List<String>> partition(String s) {
+        boolean [][] dp=new boolean[s.length()][s.length()];
+        for(int step=0;step<s.length();step++){
+            for(int i=0;i+step<s.length();i++){
+                if(step==0){
+                    dp[i][i+step]=true;
+                }
+                else if(step==1){
+                    if(s.charAt(i)==s.charAt(i+step)){
+                        dp[i][i+step]=true;
+                    }
+                    else{
+                        dp[i][i+step]=false;
+                    }
+                }
+                else{
+                    if(s.charAt(i)==s.charAt(i+step) && dp[i+1][i+step-1]){
+                        dp[i][i+step]=true;
+                    }
+                    else{
+                        dp[i][i+step]=false;
+                    }
+                }
             }
-            return s1.peek();
         }
-        else{
-            return s1.peek();
-        }
-    }
+        List<String> tmp=new ArrayList<>();
+        List<List<String>> re=new ArrayList<>();
+        dfs(s,0,dp,tmp,re);
+        return re;
 
-    /** Returns whether the queue is empty. */
-    public boolean empty() {
-        return s1.isEmpty()&&s2.isEmpty();
     }
 }
