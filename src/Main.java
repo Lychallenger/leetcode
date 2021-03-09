@@ -3,45 +3,28 @@ import sun.nio.cs.ext.MacHebrew;
 import java.lang.*;
 import java.util.*;
 
-//132. 分割回文串 II
+//1047. 删除字符串中的所有相邻重复项
 
 class Main {
-    public int minCut(String s) {
-        boolean [][] isRe=new boolean[s.length()][s.length()];
-        for(int i=0;i<s.length();i++){
-            for(int j=0;j+i<s.length();j++){
-                if(i==0){
-                    isRe[j][j+i]=true;
-                }
-                else if(i==1){
-                    if(s.charAt(j)==s.charAt(j+i)){
-                        isRe[j][j+i]=true;
-                    }
-                    else{
-                        isRe[j][j+i]=false;
-                    }
+    public String removeDuplicates(String S) {
+        Stack<Character> st=new Stack<>();
+        for(int i=0;i<S.length();i++){
+            if(st.isEmpty()){
+                st.push(S.charAt(i));
+            }
+            else{
+                if(st.peek()==S.charAt(i)){
+                    st.pop();
                 }
                 else{
-                    if(isRe[j+1][j+i-1]&&s.charAt(j)==s.charAt(j+i)){
-                        isRe[j][j+i]=true;
-                    }
-                    else{
-                        isRe[j][j+i]=false;
-                    }
+                    st.push(S.charAt(i));
                 }
             }
         }
-
-        int []dp=new int[s.length()+1];
-        dp[0]=0;
-        for(int i=0;i<s.length();i++){
-            dp[i+1]=i+1;
-            for(int j=i;j>=0;j--){
-                if(isRe[j][i]){
-                    dp[i+1]=Math.min(dp[i+1],dp[j]+1);
-                }
-            }
+        StringBuffer sb=new StringBuffer();
+        while(!st.isEmpty()){
+            sb.append(st.pop());
         }
-        return dp[s.length()];
+        return sb.reverse().toString();
     }
 }
