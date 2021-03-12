@@ -3,28 +3,56 @@ import sun.nio.cs.ext.MacHebrew;
 import java.lang.*;
 import java.util.*;
 
-//1047. 删除字符串中的所有相邻重复项
+//331. 验证二叉树的前序序列化
 
 class Main {
-    public String removeDuplicates(String S) {
-        Stack<Character> st=new Stack<>();
-        for(int i=0;i<S.length();i++){
-            if(st.isEmpty()){
-                st.push(S.charAt(i));
+    public boolean isValidSerialization(String preorder) {
+        String[] ch=preorder.split(",");
+        Stack<String> st=new Stack<>();
+        for(int i=0;i<ch.length;i++){
+            if(!ch[i].equals("#")){
+                st.push(ch[i]);
             }
-            else{
-                if(st.peek()==S.charAt(i)){
-                    st.pop();
+            else{// ch i ==#
+                if(st.isEmpty()||!st.peek().equals("#")){//st peek !=#
+                    st.push(ch[i]);
                 }
-                else{
-                    st.push(S.charAt(i));
+                else{//st peek = #
+                    while(st.peek().equals("#")){
+                        if(st.size()>1){
+                            String t1=st.pop();
+                            String t2=st.pop();
+                            if(t2.equals("#")){
+                                return false;
+                            }
+                            if(st.isEmpty()){
+                                if(i==ch.length-1){
+                                    return true;
+                                }
+                                else{
+                                    return false;
+                                }
+                            }
+                        }
+                        else{
+                            return false;
+                        }
+                    }
+                    st.push("#");
+
                 }
             }
         }
-        StringBuffer sb=new StringBuffer();
-        while(!st.isEmpty()){
-            sb.append(st.pop());
+        if(st.size()==1&& st.peek().equals("#")){
+            return true;
         }
-        return sb.reverse().toString();
+        else{
+            return false;
+        }
+
+    }
+
+    public static void main(String[] args) {
+        System.out.println(new Main().isValidSerialization("9,#,#,1"));
     }
 }
