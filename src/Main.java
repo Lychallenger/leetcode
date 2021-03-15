@@ -3,56 +3,45 @@ import sun.nio.cs.ext.MacHebrew;
 import java.lang.*;
 import java.util.*;
 
-//331. 验证二叉树的前序序列化
+//54. 螺旋矩阵
 
 class Main {
-    public boolean isValidSerialization(String preorder) {
-        String[] ch=preorder.split(",");
-        Stack<String> st=new Stack<>();
-        for(int i=0;i<ch.length;i++){
-            if(!ch[i].equals("#")){
-                st.push(ch[i]);
+    public List<Integer> spiralOrder(int[][] matrix) {
+        boolean[][] visit=new boolean[matrix.length][matrix[0].length];
+        List<Integer> list=new ArrayList<>(matrix.length*matrix[0].length);
+        int count=0;
+        int i=0,j=0;
+        visit[0][0]=true;
+        list.add(matrix[0][0]);
+        count=1;
+        while(count<matrix.length*matrix[0].length){
+            //right;
+            while(j+1<matrix[0].length&&!visit[i][j+1]){
+                visit[i][j+1]=true;
+                list.add(matrix[i][j+1]);
+                count++;
+                j++;
             }
-            else{// ch i ==#
-                if(st.isEmpty()||!st.peek().equals("#")){//st peek !=#
-                    st.push(ch[i]);
-                }
-                else{//st peek = #
-                    while(st.peek().equals("#")){
-                        if(st.size()>1){
-                            String t1=st.pop();
-                            String t2=st.pop();
-                            if(t2.equals("#")){
-                                return false;
-                            }
-                            if(st.isEmpty()){
-                                if(i==ch.length-1){
-                                    return true;
-                                }
-                                else{
-                                    return false;
-                                }
-                            }
-                        }
-                        else{
-                            return false;
-                        }
-                    }
-                    st.push("#");
-
-                }
+            while(i+1<matrix.length&&!visit[i+1][j]){
+                visit[i+1][j]=true;
+                list.add(matrix[i+1][j]);
+                count++;
+                i++;
             }
-        }
-        if(st.size()==1&& st.peek().equals("#")){
-            return true;
-        }
-        else{
-            return false;
-        }
+            while(j-1>=0&&!visit[i][j-1]){
+                visit[i][j-1]=true;
+                list.add(matrix[i][j-1]);
+                count++;
+                j--;
+            }
+            while(i-1>=0&&!visit[i-1][j]){
+                visit[i-1][j]=true;
+                list.add(matrix[i-1][j]);
+                count++;
+                i--;
+            }
 
-    }
-
-    public static void main(String[] args) {
-        System.out.println(new Main().isValidSerialization("9,#,#,1"));
+        }
+        return list;
     }
 }
