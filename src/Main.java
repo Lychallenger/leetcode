@@ -3,45 +3,57 @@ import sun.nio.cs.ext.MacHebrew;
 import java.lang.*;
 import java.util.*;
 
-//54. 螺旋矩阵
+//73. 矩阵置零
 
 class Main {
-    public List<Integer> spiralOrder(int[][] matrix) {
-        boolean[][] visit=new boolean[matrix.length][matrix[0].length];
-        List<Integer> list=new ArrayList<>(matrix.length*matrix[0].length);
-        int count=0;
-        int i=0,j=0;
-        visit[0][0]=true;
-        list.add(matrix[0][0]);
-        count=1;
-        while(count<matrix.length*matrix[0].length){
-            //right;
-            while(j+1<matrix[0].length&&!visit[i][j+1]){
-                visit[i][j+1]=true;
-                list.add(matrix[i][j+1]);
-                count++;
-                j++;
+    public void setZeroes(int[][] matrix) {
+        boolean leftTag=false;
+        boolean rightTag=false;
+        for(int i=0;i<matrix.length;i++){
+            for(int j=0;j<matrix[i].length;j++){
+                if(matrix[i][j]==0){
+                    if(i==0&&j==0){
+                        leftTag=true;
+                        rightTag=true;
+                    }
+                    else if(i==0){
+                        rightTag=true;
+                    }
+                    else if(j==0){
+                        leftTag=true;
+                    }
+                    matrix[0][j]=0;
+                    matrix[i][0]=0;
+                }
             }
-            while(i+1<matrix.length&&!visit[i+1][j]){
-                visit[i+1][j]=true;
-                list.add(matrix[i+1][j]);
-                count++;
-                i++;
+        }
+        for(int i=1;i<matrix.length;i++){
+            if(matrix[i][0]==0){
+                for(int j=0;j<matrix[0].length;j++){
+                    matrix[i][j]=0;
+                }
             }
-            while(j-1>=0&&!visit[i][j-1]){
-                visit[i][j-1]=true;
-                list.add(matrix[i][j-1]);
-                count++;
-                j--;
+        }
+
+        for(int j=1;j<matrix[0].length;j++){
+            if(matrix[0][j]==0){
+                for(int i=0;i<matrix.length;i++){
+                    matrix[i][j]=0;
+                }
             }
-            while(i-1>=0&&!visit[i-1][j]){
-                visit[i-1][j]=true;
-                list.add(matrix[i-1][j]);
-                count++;
-                i--;
+        }
+        if(matrix[0][0]==0){
+            if(leftTag){
+                for(int i=0;i<matrix.length;i++){
+                    matrix[i][0]=0;
+                }
+            }
+            if(rightTag){
+                for(int j=0;j<matrix[0].length;j++){
+                    matrix[0][j]=0;
+                }
             }
 
         }
-        return list;
     }
 }
