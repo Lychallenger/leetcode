@@ -3,57 +3,28 @@ import sun.nio.cs.ext.MacHebrew;
 import java.lang.*;
 import java.util.*;
 
-//73. 矩阵置零
+//82. 删除排序链表中的重复元素 II
 
 class Main {
-    public void setZeroes(int[][] matrix) {
-        boolean leftTag=false;
-        boolean rightTag=false;
-        for(int i=0;i<matrix.length;i++){
-            for(int j=0;j<matrix[i].length;j++){
-                if(matrix[i][j]==0){
-                    if(i==0&&j==0){
-                        leftTag=true;
-                        rightTag=true;
-                    }
-                    else if(i==0){
-                        rightTag=true;
-                    }
-                    else if(j==0){
-                        leftTag=true;
-                    }
-                    matrix[0][j]=0;
-                    matrix[i][0]=0;
-                }
-            }
+    public ListNode deleteDuplicates(ListNode head) {
+        ListNode ret=new ListNode(-1);
+        ListNode result=ret;
+        if(head==null){
+            return null;
         }
-        for(int i=1;i<matrix.length;i++){
-            if(matrix[i][0]==0){
-                for(int j=0;j<matrix[0].length;j++){
-                    matrix[i][j]=0;
-                }
+        ret.next=head;
+        while(head.next!=null){
+            if(head.val==head.next.val){
+                ret.next=null;
             }
+            else{
+                if(ret.next!=null){
+                    ret=ret.next;
+                }
+                ret.next=head.next;
+            }
+            head=head.next;
         }
-
-        for(int j=1;j<matrix[0].length;j++){
-            if(matrix[0][j]==0){
-                for(int i=0;i<matrix.length;i++){
-                    matrix[i][j]=0;
-                }
-            }
-        }
-        if(matrix[0][0]==0){
-            if(leftTag){
-                for(int i=0;i<matrix.length;i++){
-                    matrix[i][0]=0;
-                }
-            }
-            if(rightTag){
-                for(int j=0;j<matrix[0].length;j++){
-                    matrix[0][j]=0;
-                }
-            }
-
-        }
+        return result.next;
     }
 }
