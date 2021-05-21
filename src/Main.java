@@ -2,41 +2,34 @@
 import java.lang.*;
 import java.util.*;
 
-//692. 前K个高频单词
+//1035. 不相交的线
 
 class Main {
-    public List<String> topKFrequent(String[] words, int k) {
-        HashMap<String,Integer> hashMap=new HashMap<>();
-        for(int i=0;i<words.length;i++){
-            hashMap.put(words[i],hashMap.getOrDefault(words[i],0)+1);
-        }
-        PriorityQueue<Map.Entry<String, Integer>> priorityQueue = new PriorityQueue<>(
-                (o1, o2) ->{
-                    if(o1.getValue().equals(o2.getValue())){
-                        return o1.getKey().compareTo(o2.getKey());
+    public int maxUncrossedLines(int[] nums1, int[] nums2) {
+            int [][] dp=new int[nums1.length+1][nums2.length+1];
+            int max_len=0;
+            for(int i=0;i<dp.length;i++){
+                for(int j=0;j<dp[0].length;j++){
+                    if(i==0||j==0){
+                        dp[i][j]=0;
                     }
                     else{
-                        return o1.getValue()-o2.getValue();
+                        if(nums1[i-1]==nums2[j-1]){
+                            dp[i][j]=dp[i-1][j-1]+1;
+                        }
+                        else{
+                            dp[i][j]=Math.max(dp[i-1][j],dp[i][j-1]);
+                        }
+                        max_len=Math.max(dp[i][j],max_len);
                     }
-                } );
-        for(Map.Entry<String,Integer> entry:hashMap.entrySet()){
-            if(priorityQueue.size()<k){
-                priorityQueue.add(entry);
-            }
-            else{
-                if(entry.getValue()>priorityQueue.peek().getValue()||
-                        (entry.getValue().equals(priorityQueue.peek().getValue())
-                                &&entry.getKey().compareTo(priorityQueue.peek().getKey())<0)){
-                    priorityQueue.poll();
-                    priorityQueue.add(entry);
                 }
             }
-        }
-        List<String> list=new ArrayList<>();
-        for(int i=0;i<k;i++){
-            list.add(0,priorityQueue.poll().getKey());
-        }
-        return list;
+            return max_len;
     }
 
+    public static void main(String[] args) {
+        int []nums1={1,3,7,1,7,5};
+        int []nums2={1,9,2,5,1};
+        new Main().maxUncrossedLines(nums1,nums2);
+    }
 }
