@@ -2,33 +2,29 @@
 import java.lang.*;
 import java.util.*;
 
-//160. 相交链表
+//面试题 17.10. 主要元素
 
 class Main {
-    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
-        if(headA==null||headB==null){
-            return null;
-        }
-        else{
-            ListNode tmpA=headA;
-            ListNode tmpB=headB;
-            while(tmpA!=tmpB){
-                tmpA=tmpA.next;
-                tmpB=tmpB.next;
-                if(tmpA==null&&tmpB==null)break;
-                if(tmpA==null){
-                    tmpA=headB;
-                }
-                if(tmpB==null){
-                    tmpB=headA;
-                }
-            }
-            if(tmpA==null){
-                return null;
-            }
-            else{
-                return tmpA;
-            }
-        }
+    public int majorityElement(int[] nums) {
+       int candidate=-1;
+       int count=0;
+       for(int k:nums){
+           if(count==0){
+               candidate=k;
+           }
+           if(k==candidate){
+               count++;
+           }
+           else{
+               count--;
+           }
+       }
+       count=0;
+       for(int k:nums){
+           if(k==candidate){
+               count++;
+           }
+       }
+       return count*2>nums.length?candidate:-1;
     }
 }
