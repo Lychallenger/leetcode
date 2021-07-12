@@ -2,28 +2,27 @@
 import java.lang.*;
 import java.util.*;
 
-//274. H 指数
+//930. 和相同的二元子数组
 
 class Main {
-    public int hIndex(int[] citations) {
-        Arrays.sort(citations);
-        int N = citations.length;
-        int left = 0;
-        int right = N-1;
-
-        while (left <= right) {
-            int mid = (left+right)/ 2;
-            int data = citations[mid];
-            if(data>N-mid){//to left
-                right=mid-1;
-            }
-            else if(data<N-mid){//to right
-                left=mid+1;
-            }
-            else{
-                return data;
-            }
+    public int numSubArraysWithSum(int[] nums, int goal) {
+        if(nums.length==0){
+            return 0;
         }
-        return N-left;
+        int sum=0;
+        int ret=0;
+        for(int i=0;i<nums.length;i++){
+            int t=nums[i];
+            nums[i]=0;//init set to 0;
+            nums[sum]=nums[sum]+1;
+            sum=sum+t;
+            if(sum-goal>=0){
+                if(sum-goal<nums.length&&sum-goal<=i)
+                    ret=ret+nums[sum-goal];
+            }
+
+        }
+        return ret;
+
     }
 }
