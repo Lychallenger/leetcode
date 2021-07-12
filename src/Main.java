@@ -2,29 +2,27 @@
 import java.lang.*;
 import java.util.*;
 
-//面试题 17.10. 主要元素
+//275. H 指数 II
 
 class Main {
-    public int majorityElement(int[] nums) {
-       int candidate=-1;
-       int count=0;
-       for(int k:nums){
-           if(count==0){
-               candidate=k;
-           }
-           if(k==candidate){
-               count++;
-           }
-           else{
-               count--;
-           }
-       }
-       count=0;
-       for(int k:nums){
-           if(k==candidate){
-               count++;
-           }
-       }
-       return count*2>nums.length?candidate:-1;
+    public int hIndex(int[] citations) {
+        int N = citations.length;
+        int left = 0;
+        int right = N-1;
+
+        while (left <= right) {
+            int mid = (left+right)/ 2;
+            int data = citations[mid];
+            if(data>N-mid){//to left
+                right=mid-1;
+            }
+            else if(data<N-mid){//to right
+                left=mid+1;
+            }
+            else{
+                return data;
+            }
+        }
+        return N-left;
     }
 }
