@@ -2,10 +2,11 @@
 import java.lang.*;
 import java.util.*;
 
-//275. H 指数 II
+//274. H 指数
 
 class Main {
     public int hIndex(int[] citations) {
+        Arrays.sort(citations);
         int N = citations.length;
         int left = 0;
         int right = N-1;
